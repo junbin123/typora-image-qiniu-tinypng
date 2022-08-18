@@ -1,0 +1,13 @@
+{
+  "name": "qiniu-upload",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "junbin123 <540965117@qq.com>",
+  "license": "MIT",
+  "dependencies": {},
+  "devDependencies": {
+    "commander": "^9.4.0",
+    "qiniu": "^7.7.0",
+    "tinify": "^1.6.1"
+  }
+}
