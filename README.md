@@ -35,3 +35,35 @@ yarn
 # 执行下面命令后，可以看到生成 config.js 文件，按要求配置
 node index.js
 ```
+
+4. 配置完成，先测试一下
+
+```shell
+node index.js -file ./test.jpg
+```
+
+打印了远程地址，说明成功了。
+
+![image-20220819142623251](https://image.wujunbin.com/qiniu-1660890383738-image-20220819142623251.png)
+
+5. 打开 typora 的偏好设置，_选择图像>上传服务>Custom Command_
+
+```shell
+# 输入以下命令 -file字段名表示传入的图片路径
+node 此处填写你的本地路径/typora-image-qiniu-tinypng/index.js -file
+
+# 如果你电脑安装了多个版本的node，例如我安装了n版本切换工具，那么命令就是
+/usr/local/n/versions/node/16.16.0/bin/node xxx/typora-image-qiniu-tinypng/index.js -file
+```
+
+![image-20220819140356210](https://image.wujunbin.com/qiniu-1660889036746-image-20220819140356210.png)
+
+点击**验证上传选项**按钮，结果打印远程地址，说明成功了。
+
+_不知为啥标题是验证失败，但实际是成功的，不管了_
+
+![image-20220819141348292](https://image.wujunbin.com/qiniu-1660889628469-image-20220819141348292.png)
+
+6. 实际测试一下
+
+   ![image-20220819143043617](https://image.wujunbin.com/qiniu-1660890643805-image-20220819143043617.png)

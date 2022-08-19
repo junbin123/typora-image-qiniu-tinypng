@@ -1,14 +1,6 @@
-
-
 /**
  * typora 自定义上传图片脚本
- * http://notes.jiabanmoyu.com/%E6%9D%82%E8%AE%B0/Typora%E9%85%8D%E7%BD%AE%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0
- * 使用：
- * 1. 选择 custom command
- * 2. 命令输入：  node /Users/junbin/Desktop/qiniu-upload/typora.js -file
- * /usr/local/n/versions/node/16.16.0/bin/node /Users/wujunbin/me/SideProject/qiniu-upload/typora.js -file
  */
-
 
 const config = getConfig()
 const program = require('commander');
@@ -71,11 +63,6 @@ async function compressImg(localPath) {
 function getConfig() {
   const path = './config.js'
   try {
-    //   const a = require('fs').existsSync(`${__dirname}/config.js`)
-    //   console.log({ a });
-    // } catch (err) {
-    //   console.log(12);
-    // }
     if (require('fs').existsSync(`${__dirname}/config.js`)) {
       return require(path)
     } else {
