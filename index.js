@@ -8,14 +8,18 @@
  * 2. 命令输入：  node /Users/junbin/Desktop/qiniu-upload/typora.js -file
  * /usr/local/n/versions/node/16.16.0/bin/node /Users/wujunbin/me/SideProject/qiniu-upload/typora.js -file
  */
+
+
+const config = getConfig()
 const program = require('commander');
 const uploadQiniu = require('./qiniu.js')
 const tinify = require("tinify");
-const config = require("./config.js")
+const fs = require('fs')
 tinify.key = config.tinypng.apikey
-
 program.option('-file, --LocalFile <LocalFile>', '要上传的本地文件');
 program.parse(process.argv);
+
+
 
 
 upload();
@@ -31,15 +35,10 @@ async function upload() {
 
   const { compressPath, fileName } = await compressImg(LocalFile)
   const qiniuImg = await uploadQiniu({ key: fileName, localFile: compressPath })
-
   const qiniuUrl = `${config.qiniu.imageUrl}/${qiniuImg.key}`
   console.log(qiniuUrl);
   require('fs').unlinkSync(compressPath)
 }
-
-
-
-
 
 
 /**
@@ -66,6 +65,56 @@ async function compressImg(localPath) {
 }
 
 
+
+
+// 获取configj.js配置，没有则创建
+function getConfig() {
+  const path = './config.js'
+  try {
+    //   const a = require('fs').existsSync(`${__dirname}/config.js`)
+    //   console.log({ a });
+    // } catch (err) {
+    //   console.log(12);
+    // }
+    if (require('fs').existsSync(`${__dirname}/config.js`)) {
+      return require(path)
+    } else {
+      const configStr = `
+  module.exports = {
+    "tinypng": {  // tinypng配置信息 https://tinypng.com/developers/reference/nodejs
+      "apikey": ""  // https://tinify.com/dashboard/api
+    },
+    "qiniu": { // 七牛云配置信息 https://developer.qiniu.com/kodo/1289/nodejs
+      "options": {  // 
+        "scope": ""  // 七牛云的空间名称
+      },
+      "accessKey": "",
+      "secretKey": "",
+
+      /**
+       * zone和机房的对应关系
+       * 机房	Zone对象
+       * 华东	qiniu.zone.Zone_z0
+       * 华北	qiniu.zone.Zone_z1
+       * 华南	qiniu.zone.Zone_z2
+       * 北美	qiniu.zone.Zone_na0
+       */
+      "zone": "Zone_z0", // 机房位置
+      // 图片访问域名前缀，例如：图片文件 image.png，那么访问地址就是 https://example.com/image.png
+      "imageUrl": "https://example.com"
+    }
+  }
+        `
+      fs.writeFileSync(path, configStr)
+      console.log('请在config.js中配置密码')
+      process.exit(0)
+    }
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
 // 测试压缩
 // compressImg('/Applications/Typora.app/Contents/Resources/TypeMark/assets/icon/icon_512x512.png').then(res => {
 //   console.log(res);
@@ -73,9 +122,3 @@ async function compressImg(localPath) {
 // compressImg('https://static.jindll.com/notes/2020050702.png').then(res => {
 //   console.log(res);
 // })
-
-
-
-
-
-
